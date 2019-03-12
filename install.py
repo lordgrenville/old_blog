@@ -6,11 +6,11 @@ import platform
 
 version = sys.version_info
 activate_env_path = os.path.join("env", "bin", "activate_this.py")
-activate_env = activate_env_path
-opts = {}
 is_windows = platform.system() == 'Windows'
 if is_windows:
     activate_env_path = os.path.join("env", "Scripts", "activate_this.py")
+activate_env = activate_env_path
+opts = {}
 
 def has_colours(stream):
   if not hasattr(stream, "isatty"):
