@@ -91,7 +91,7 @@ class FlatPagesPandoc(object):
       "--mathml",
       "--base-header-level=2",
       "--highlight-style", "pygments",
-      '--bibliography="pages/all.bib"',
+      "--bibliography=pages/all.bib",
       "--csl=pages/lncs.csl",
       "-Mreference-section-title=References",
       "-Mlink-citations=true"
