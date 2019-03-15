@@ -2,9 +2,13 @@ import sys
 import os
 import subprocess as proc
 import distutils.spawn as which
+import platform
 
 version = sys.version_info
 activate_env_path = os.path.join("env", "bin", "activate_this.py")
+is_windows = platform.system() == 'Windows'
+if is_windows:
+    activate_env_path = os.path.join("env", "Scripts", "activate_this.py")
 activate_env = activate_env_path
 opts = {}
 
@@ -44,7 +48,10 @@ for dependency in dependencies:
 
 print((print_color("==> Creating the virtual environment. . .", 4)))
 try:
-  proc.check_call(["virtualenv", "--python=python3", "env"])
+    if is_windows:
+        proc.check_call(["virtualenv", "-p", "python.exe", "env"])
+    else:
+        proc.check_call(["virtualenv", "--python=python3", "env"])
 except Exception as e:
   raise e
 
