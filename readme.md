@@ -25,6 +25,11 @@ tight integration of graphics with text, and carefully chosen typography.
 Dependencies: `Python 3`, `pandoc`, `pandoc-citeproc`, `pandoc-crossref`,
 `pandoc-sidenote`.
 
+In order to satisfy a missing dependency check with your system's package
+manager. On macOS all dependencies are available through Homebrew.
+
+To install athena run:
+
 1. `git clone https://github.com/apas/athena.git`
 1. `python3 install.py`
 
@@ -42,11 +47,20 @@ Enter sidebar description: A brief description for each post with a navigation b
 Enter footer: Footer
 ```
 
-Upon a successful installation, the script generates a `config.py` file which
-contains the values you've entered when prompted and are shared between
+After a successful installation the script will generate a `config.py` file which
+contains the values you entered when prompted and which are shared between
 the Python backend and the Jinja template engine.
 
 ## Usage
+
+In order to run athena or build static HTML you need to activate in your shell
+session the virtual environment created automatically by `install.py` earlier:
+
+1. `source env/bin/activate`
+
+Now you can run athena and build static HTML with the two commands listed below.
+
+Tip: in order to deactivate and exit the virtual environment run `deactivate`.
 
 ### Running athena
 
@@ -59,10 +73,10 @@ athena will start a Flask server at `127.0.0.1:5000`.
 1. `python athena.py build`
 
 A new `build/` directory will be created (it's automatically ignored by git.)
-For subsequent builds, athena rebuilds only the updated files, rather than the
+For subsequent builds athena rebuilds only the updated files rather than the
 entire codebase.
 
-For deploying athena to a remote server read the relevant section below.
+In order to deploy athena to a remote server read the relevant section below.
 
 ### Post structure
 
