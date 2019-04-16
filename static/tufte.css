@@ -311,6 +311,10 @@ code { font-family: Menlo Regular;
         padding: 2px;
    }
 
+code a {
+  border-bottom: 0px;
+}
+
 .code { font-family: Menlo Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
         color: #222; }
         /*font-size: 1.125rem;*/
