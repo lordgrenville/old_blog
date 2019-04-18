@@ -1,6 +1,7 @@
 venv/
 env/
 build/
+static/sdist
 *.pyc
 *.log
 config.py

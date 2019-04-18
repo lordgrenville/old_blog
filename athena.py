@@ -4,6 +4,7 @@ from datetime import date, datetime
 from flask import Flask, render_template, request
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
+from flask_static_compress import FlaskStaticCompress
 from werkzeug.contrib.atom import AtomFeed
 from flatpandoc import FlatPagesPandoc
 import subprocess as proc
@@ -29,6 +30,7 @@ freezer = Freezer(athena)
 athena.jinja_env.comment_start_string = "{##}"
 FlatPagesPandoc("markdown+raw_tex+yaml_metadata_block",
   athena, pre_render=True)
+compress = FlaskStaticCompress(athena)
 
 def make_external(url):
   return urljoin(request.url_root, url)

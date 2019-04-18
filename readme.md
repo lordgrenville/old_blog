@@ -23,10 +23,11 @@ tight integration of graphics with text, and carefully chosen typography.
 ## Install
 
 Dependencies: `Python 3`, `pandoc`, `pandoc-citeproc`, `pandoc-crossref`,
-`pandoc-sidenote`.
+`pandoc-sidenote`, `less`.
 
 In order to satisfy a missing dependency check with your system's package
-manager. On macOS all dependencies are available through Homebrew.
+manager. On macOS all dependencies are available through Homebrew. `Less` is
+available through npm.
 
 To install athena run:
 
