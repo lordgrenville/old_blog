@@ -228,11 +228,19 @@ athena works out of the box with any server capable of serving HTML content.
 If you do not want to pay for or own a server you can use GitHub Pages. It's
 where the cool kids hang out nowadays, anyway.
 
+In order to deploy athena to a remote server with a custom domain name you own
+you must edit line 25 in `athena.py`. Replace `FREEZER_BASE_URL`'s default
+`localhost` value with your own domain. For instance:
+
+1. `FREEZER_BASE_URL = 'http://localhost/'` to
+1. `FREEZER_BASE_URL = 'https://your-domain-name.tld/'`
+
 If you're using your own hosting solution you know what to do now. Happy
 blogging!
 
-For GitHub pages you can `init` a new git repo from within the `/build`
-directory since athena's ignoring it and `push` from there.
+Tip: for GitHub pages you can `init` a new git repo from within the `/build`
+directory because athena is ignoring it by default and `push` to your remote
+from therein.
 
 ## License
 

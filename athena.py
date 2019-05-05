@@ -22,6 +22,7 @@ DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
 FREEZER_REMOVE_EXTRA_FILES = False
+FREEZER_BASE_URL = 'http://localhost/'
 
 athena = Flask(__name__)
 athena.config.from_object(__name__)
