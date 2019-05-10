@@ -32,12 +32,12 @@
   <meta property="og:title" content="{{ page.title }}" />
   <meta property="og:type" content="website" />
   <meta property="og:description" content="{{ page.description }}" />
-  <meta property="og:url" content="{{ request.path }}" />
+  <meta property="og:url" content="{{ request.base_url }}" />
   <meta property="og:image" content="{{ url_for('static', filename='img/athena.png') }}" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="{{ page.title }}" />
   <meta name="twitter:description" content="{{ page.description }}" />
-  <meta name="twitter:url" content="{{ request.path }}" />
+  <meta name="twitter:url" content="{{ request.base_url }}" />
   <meta name="twitter:image" content="{{ url_for('static', filename='img/athena.png') }}" />
 </head>
 <body>
@@ -55,7 +55,9 @@
     {% endfor %}
     <a href="{{ url_for("recent_feed") }}">subscribe</a></span></p>
 
-    <subtitle class="sub-date">{{ page.date.strftime('%B %d, %Y') }} · <span style="font-size: 1.6rem;"><a style="border-bottom-width: 0px !important;" href="{{ request.path }}">&infin;</a></span></subtitle>
+    <subtitle class="sub-date">{{ page.date.strftime('%B %d, %Y') }} · <span
+    style="font-size: 1.6rem;"><a style="border-bottom-width: 0px !important;"
+    href="{{ request.base_url }}">&infin;</a></span></subtitle>
 
     {{ page.html|safe }}
   {% endblock content %}
