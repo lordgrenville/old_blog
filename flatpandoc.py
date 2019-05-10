@@ -103,7 +103,7 @@ class FlatPagesPandoc(object):
       extra_args.append("-S")
       format_str = "markdown+raw_tex+yaml_metadata_block"
     else:
-      format_str = "markdown+raw_tex+smart+yaml_metadata_block"
+      format_str = "markdown+raw_tex+smart+yaml_metadata_block+header_attributes"
 
     output = pypandoc.convert_text(
       text.encode("utf8"),
