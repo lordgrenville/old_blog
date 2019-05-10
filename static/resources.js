@@ -97,4 +97,6 @@ $(window).on("load", function () {
         $(this).append('<a href="#' + h3IDs[count3] +'" class="heading-anchor">#</a>')
         count3++;
     })
+
+    $("#bibliography").append('<a href="#bibliography" class="heading-anchor">#</a>')
 })
