@@ -5,4 +5,4 @@ description: A sample about page.
 ispage: yes
 ...
 
-This is a sample about page.
+Blog by the owner of the associated Github account.
