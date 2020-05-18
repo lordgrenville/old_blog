@@ -3,7 +3,7 @@ date: 2020-03-30
 description: Finally Figured Out Monty Hall!
 ...
 
-Thanks to [this explanantion](https://github.com/DeegC/monty_hall_paradox) (coding it out in Ruby made it clearer to me, but it's really the verbal explanation that worked).
+Thanks to [this explanation](https://github.com/DeegC/monty_hall_paradox) (coding it out in Ruby made it clearer to me, but it's really the verbal explanation that worked).
 
 At the outset you have doors A, B and C. Given the choice between A or B and C, obviously you would take the latter. That's what you're choosing here! B and C, which combined have a greater chance of being correct. It's more likely that it was in the two you didn't choose: specifically the one of them which isn't wrong. But they still represent 2/3.
 
