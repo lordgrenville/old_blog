@@ -85,11 +85,11 @@ class FlatPagesPandoc(object):
 
     extra_args = [
       "--filter=pandoc-crossref",
-      "--filter=pandoc-citeproc",
+      "--citeproc",
       "--filter=pandoc-sidenote",
       "--standalone",
       "--mathml",
-      "--base-header-level=2",
+      "--shift-heading-level-by=2",
       "--highlight-style", "pygments",
       "--bibliography=pages/all.bib",
       "--csl=pages/lncs.csl",
