@@ -94,7 +94,11 @@ class FlatPagesPandoc(object):
       "--bibliography=pages/all.bib",
       "--csl=pages/lncs.csl",
       "-Mreference-section-title=References",
-      "-Mlink-citations=true"
+      "-Mlink-citations=true",
+      # putting this template in the default place should work but doesn't...
+      # "--template=/Users/joshfriedlander/.local/share/templates/default.html"
+      # so we add it explicitly here
+      "--template=default.html"
     ]
 
     pandocver = int(pypandoc.get_pandoc_version()[0])
