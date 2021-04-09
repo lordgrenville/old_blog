@@ -1,14 +1,12 @@
 import sys
 from urllib.parse import urljoin
-from datetime import date, datetime
-from flask import Flask, render_template, request
+from datetime import datetime
+from feedgen.feed import FeedGenerator
+from flask import Flask, render_template, request, make_response
 from flask_flatpages import FlatPages
-from werkzeug.contrib.atom import AtomFeed
 from flask_frozen import Freezer
 from flask_static_compress import FlaskStaticCompress
 from flatpandoc import FlatPagesPandoc
-import subprocess as proc
-import operator
 import fileinput
 import glob
 import os
@@ -41,24 +39,25 @@ def make_external(url):
 
 @athena.route("/feed.atom")
 def recent_feed():
-    feed = AtomFeed(config.config["title"],
-                    feed_url=request.url_root,
-                    url=request.url_root,
-                    subtitle=config.config["title"] + " Atom Feed")
+    fg = FeedGenerator()
+    fg.title(config.config["title"])
+    fg.subtitle(config.config["title"] + " Atom Feed")
+    fg.id(config.config["url"])
 
     for page in pages:
         if not page.meta.get("ispage"):
-            feed.add(page["title"],
-                     str(page.__html__()),
-                     content_type='html',
-                     url=make_external("/posts/" + page.path),
-                     author=config.config["author"],
-                     updated=datetime.combine(page["date"],
-                                              datetime.min.time()),
-                     published=datetime.combine(page["date"],
-                                                datetime.min.time()))
+            fe = fg.add_entry()
+            fe.title(page["title"])
+            fe.id(config.config["url"] + "/posts/" + page.path)
+            fe.description(str(page.__html__()))
+            fe.author({'name': config.config["author"]})
+            LOCAL_TIMEZONE = datetime.now().astimezone().tzinfo
+            fe.updated(datetime.combine(page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE))
+            fe.published(datetime.combine(page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE))
 
-    return feed.get_response()
+    response =  make_response(fg.atom_str(pretty=True))
+    response.headers.set('Content-Type', 'application/atom+xml')
+    return response
 
 
 @athena.route("/")
