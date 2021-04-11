@@ -1,4 +1,5 @@
 import sys
+import uuid
 from urllib.parse import urljoin
 from datetime import datetime
 from feedgen.feed import FeedGenerator
@@ -37,19 +38,20 @@ def make_external(url):
     return urljoin(request.url_root, url)
 
 
-@athena.route("/feed.atom")
+@athena.route("/feed.rss")
 def recent_feed():
     fg = FeedGenerator()
     fg.title(config.config["title"])
     fg.subtitle(config.config["title"] + " Atom Feed")
-    fg.id(config.config["url"])
+    fg.link({'href': config.config["url"] + '/feed.rss', 'rel': 'self', 'type': 'application/rss+xml'})
 
     for page in pages:
         if not page.meta.get("ispage"):
             fe = fg.add_entry()
             fe.title(page["title"])
-            fe.id(config.config["url"] + "/posts/" + page.path)
-            fe.description(str(page.__html__()))
+            fe.description((str(page.__html__())))
+            fe.link({'href': config.config["url"] + "/posts/" + page.path})
+            fe.guid(str(uuid.uuid4()))
             fe.author({'name': config.config["author"]})
             LOCAL_TIMEZONE = datetime.now().astimezone().tzinfo
             fe.updated(
@@ -61,8 +63,8 @@ def recent_feed():
                                  datetime.min.time(),
                                  tzinfo=LOCAL_TIMEZONE))
 
-    response = make_response(fg.atom_str(pretty=True))
-    response.headers.set('Content-Type', 'application/atom+xml')
+    response = make_response(fg.rss_str(pretty=True))
+    response.headers.set('Content-Type', 'application/rss+xml')
     return response
 
 
