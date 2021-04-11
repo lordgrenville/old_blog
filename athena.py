@@ -52,10 +52,16 @@ def recent_feed():
             fe.description(str(page.__html__()))
             fe.author({'name': config.config["author"]})
             LOCAL_TIMEZONE = datetime.now().astimezone().tzinfo
-            fe.updated(datetime.combine(page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE))
-            fe.published(datetime.combine(page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE))
+            fe.updated(
+                datetime.combine(page["date"],
+                                 datetime.min.time(),
+                                 tzinfo=LOCAL_TIMEZONE))
+            fe.published(
+                datetime.combine(page["date"],
+                                 datetime.min.time(),
+                                 tzinfo=LOCAL_TIMEZONE))
 
-    response =  make_response(fg.atom_str(pretty=True))
+    response = make_response(fg.atom_str(pretty=True))
     response.headers.set('Content-Type', 'application/atom+xml')
     return response
 
