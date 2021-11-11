@@ -35,7 +35,9 @@ def print_color(text, color=7):
 
 
 dependencies = [
-    "pandoc", "pandoc-citeproc", "pandoc-crossref", "pandoc-sidenote",
+    "pandoc",
+    # "pandoc-citeproc",
+    "pandoc-crossref", "pandoc-sidenote",
     "virtualenv", "lessc"
 ]
 
