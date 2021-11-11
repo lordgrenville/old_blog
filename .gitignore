@@ -1,5 +1,4 @@
 blogenv/
-env/
 build/
 static/sdist
 *.pyc

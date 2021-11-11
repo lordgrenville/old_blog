@@ -1,36 +1,33 @@
-import sys
-import uuid
-from urllib.parse import urljoin
-from datetime import datetime
-from feedgen.feed import FeedGenerator
-from flask import Flask, render_template, request, make_response
-from flask_flatpages import FlatPages
-from flask_frozen import Freezer
-from flask_static_compress import FlaskStaticCompress
-from flatpandoc import FlatPagesPandoc
 import fileinput
 import glob
 import os
-try:
-    import config
-except ImportError as e:
-    print("Please run install.py first.")
-    raise e
+import sys
+import uuid
+from datetime import datetime
+from urllib.parse import urljoin
+
+from feedgen.feed import FeedGenerator
+from flask import Flask, make_response, render_template, request
+from flask_flatpages import FlatPages
+from flask_frozen import Freezer
+from flask_static_compress import FlaskStaticCompress
+
+import config
+from flatpandoc import FlatPagesPandoc
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
-FLATPAGES_EXTENSION = '.md'
+FLATPAGES_EXTENSION = ".md"
 FREEZER_REMOVE_EXTRA_FILES = False
-FREEZER_BASE_URL = 'http://localhost/'
+FREEZER_BASE_URL = "http://localhost/"
+LOCAL_TIMEZONE = datetime.timezone(datetime.timedelta(seconds=7200), 'IST')
 
 athena = Flask(__name__)
 athena.config.from_object(__name__)
 pages = FlatPages(athena)
 freezer = Freezer(athena)
 athena.jinja_env.comment_start_string = "{##}"
-FlatPagesPandoc("markdown+raw_tex+yaml_metadata_block",
-                athena,
-                pre_render=True)
+FlatPagesPandoc("markdown+raw_tex+yaml_metadata_block", athena, pre_render=True)
 compress = FlaskStaticCompress(athena)
 
 
@@ -43,28 +40,35 @@ def recent_feed():
     fg = FeedGenerator()
     fg.title(config.config["title"])
     fg.subtitle(config.config["title"] + " Atom Feed")
-    fg.link({'href': config.config["url"] + '/feed.rss', 'rel': 'self', 'type': 'application/rss+xml'})
+    fg.link(
+        {
+            "href": config.config["url"] + "/feed.rss",
+            "rel": "self",
+            "type": "application/rss+xml",
+        }
+    )
 
     for page in pages:
         if not page.meta.get("ispage"):
             fe = fg.add_entry()
             fe.title(page["title"])
             fe.description((str(page.__html__())))
-            fe.link({'href': config.config["url"] + "/posts/" + page.path})
+            fe.link({"href": config.config["url"] + "/posts/" + page.path})
             fe.guid(str(uuid.uuid4()))
-            fe.author({'name': config.config["author"]})
-            LOCAL_TIMEZONE = datetime.now().astimezone().tzinfo
+            fe.author({"name": config.config["author"]})
             fe.updated(
-                datetime.combine(page["date"],
-                                 datetime.min.time(),
-                                 tzinfo=LOCAL_TIMEZONE))
+                datetime.combine(
+                    page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE
+                )
+            )
             fe.published(
-                datetime.combine(page["date"],
-                                 datetime.min.time(),
-                                 tzinfo=LOCAL_TIMEZONE))
+                datetime.combine(
+                    page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE
+                )
+            )
 
     response = make_response(fg.rss_str(pretty=True))
-    response.headers.set('Content-Type', 'application/rss+xml')
+    response.headers.set("Content-Type", "application/rss+xml")
     return response
 
 
@@ -72,10 +76,9 @@ def recent_feed():
 def index():
     posts = [page for page in pages if "ispage" not in page.meta]
     hpages = [page for page in pages if "ispage" in page.meta]
-    return render_template("index.html",
-                           pages=posts,
-                           hpages=hpages,
-                           config=config.config)
+    return render_template(
+        "index.html", pages=posts, hpages=hpages, config=config.config
+    )
 
 
 @athena.route("/<path:path>/")
@@ -86,20 +89,14 @@ def hardpagelink(path):
             if page.meta["ispage"]:
                 hpage = page
     hpages = [page for page in pages if "ispage" in page.meta]
-    return render_template("hard.html",
-                           page=hpage,
-                           hpages=hpages,
-                           config=config.config)
+    return render_template("hard.html", page=hpage, hpages=hpages, config=config.config)
 
 
 @athena.route("/posts/<path:path>/")
 def page(path):
     page = pages.get_or_404(path)
     hpages = [page for page in pages if "ispage" in page.meta]
-    return render_template("page.html",
-                           page=page,
-                           hpages=hpages,
-                           config=config.config)
+    return render_template("page.html", page=page, hpages=hpages, config=config.config)
 
 
 def cat():
