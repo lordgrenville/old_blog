@@ -1,8 +1,8 @@
-import sys
-import os
-import subprocess as proc
 import distutils.spawn as which
+import os
 import platform
+import subprocess as proc
+import sys
 
 version = sys.version_info
 activate_env_path = os.path.join("env", "bin", "activate_this.py")
