@@ -237,7 +237,7 @@ blockquote {
 blockquote footer { width: 50%;
                     text-align: right; }
 
-ul { list-style-type: none; }
+/* ul { list-style-type: none; } */
 
 li { padding: 0.5rem 0; }
 
@@ -330,7 +330,7 @@ img { max-width: 100%; margin-left: auto; margin-right: auto; display: block; }
                    -ms-transform: translateX(-100%) translateX(-0.25rem);
                    transform: translateX(-100%) translateX(-0.25rem); }
 
-p, footer, pre, div.sourceCode, table.table-wrapper, table, ol, ul,
+p, footer, pre, div.sourceCode, table.table-wrapper, table,
 div.figure, div footnotes {width: 55%; }
 
 div.sourceCode pre {width: auto;}
