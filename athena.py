@@ -1,9 +1,10 @@
+import datetime
 import fileinput
 import glob
 import os
 import sys
 import uuid
-from datetime import datetime
+from datetime import timedelta, timezone
 from urllib.parse import urljoin
 
 from feedgen.feed import FeedGenerator
@@ -20,19 +21,17 @@ FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = ".md"
 FREEZER_REMOVE_EXTRA_FILES = False
 FREEZER_BASE_URL = "http://localhost/"
-LOCAL_TIMEZONE = datetime.timezone(datetime.timedelta(seconds=7200), 'IST')
+LOCAL_TIMEZONE = timezone(timedelta(seconds=7200), 'IST')
 
-athena = Flask(__name__)
+athena = Flask(__name__
+        # , root_path='/Users/josh/Documents/research/dev/athena'
+        )
 athena.config.from_object(__name__)
 pages = FlatPages(athena)
 freezer = Freezer(athena)
 athena.jinja_env.comment_start_string = "{##}"
 FlatPagesPandoc("markdown+raw_tex+yaml_metadata_block", athena, pre_render=True)
 compress = FlaskStaticCompress(athena)
-
-
-def make_external(url):
-    return urljoin(request.url_root, url)
 
 
 @athena.route("/feed.rss")
@@ -57,13 +56,13 @@ def recent_feed():
             fe.guid(str(uuid.uuid4()))
             fe.author({"name": config.config["author"]})
             fe.updated(
-                datetime.combine(
-                    page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE
+                datetime.datetime.combine(
+                    page["date"], datetime.datetime.min.time(), tzinfo=LOCAL_TIMEZONE
                 )
             )
             fe.published(
-                datetime.combine(
-                    page["date"], datetime.min.time(), tzinfo=LOCAL_TIMEZONE
+                datetime.datetime.combine(
+                    page["date"], datetime.datetime.min.time(), tzinfo=LOCAL_TIMEZONE
                 )
             )
 
@@ -109,7 +108,7 @@ def cat():
 
 
 if __name__ == "__main__":
-    cat()
+    # cat()
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         freezer.freeze()
     else:
